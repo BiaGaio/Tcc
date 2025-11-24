@@ -2,24 +2,17 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-const firebaseCredentials = {
-    apiKey: 'AIzaSyDmRGlNH6R3Nm7jWPtSnBcZgri1GR3Xvdc',
-    authDomain: 'tcc-app-sos.firebaseapp.com',
-    projectId: 'tcc-app-sos',
-    storageBucket: 'tcc-app-sos.firebasestorage.app',
-    messagingSenderId: '422608365737',
-    appId: '1:422608365737:web:c1e4635124f13e8e8721b8',
-    measurementId: 'G-PTVMBXQHVF',
-};
 
-// const firebaseCredentials = {
-//     apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-//     authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
-//     projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
-//     storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
-//     appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
-//     messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-// };
+const firebaseConfig = {
+    apiKey: "AIzaSyB6g7xUy6pTS0i52GAX6txvbXRE0cPDx04",
+    authDomain: "sos-js.firebaseapp.com",
+    projectId: "sos-js",
+    storageBucket: "sos-js.firebasestorage.app",
+    messagingSenderId: "940097331263",
+    appId: "1:940097331263:web:aa76c07d3fcbe05516188a",
+    measurementId: "G-EJN54SHZHR"
+     
+};
 
 export const app =
     getApps().length > 0 ? getApp() : initializeApp(firebaseCredentials);

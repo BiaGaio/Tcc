@@ -1,0 +1,111 @@
+Configurar expo-router:
+npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar
+npx expo install react-native-web react-dom
+npx expo install babel-preset-expo
+
+Em package.json:
+"main": "expo-router/entry"
+
+Em app.json:
+"scheme": "nome-do-app"
+
+Em babel.config.js:
+module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: ['babel-preset-expo'],
+  };
+};
+
+Limpar cache:
+npx expo start --clear
+
+
+------------------------------------------
+
+npx create-expo-app@latest firebase-expo-video -t tabs
+
+FirebaseConfig.js
+config
+
+
+npm install firebase
+npm install @react-native-async-storage/async-storage
+
+
+-> Firestore Database e Storage (upgrade plano :// )
+regras:
+rules_version = '2';
+DE:
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+PARA:
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+Metodos
+collection, addDoc, getDocs, updateDocs, deleteDoc, doc, query, where, 
+
+usuario logado:
+const user = getAuth().currentUser
+
+import { db } from FirebaseConfig
+
+const todosCollection = collection(db, 'nome-da-colecao')
+const q = query(todosCollection, where("userId", "==", user.id))
+data = await getDocs(q)
+data.docs.map(doc => doc.id doc.data())
+
+https://www.youtube.com/watch?v=a0KJ7l5sNGw
+
+
+
+----- >
+npx expo install expo-dev-client
+npx expo install @react-native-firebase/app
+npx expo install @react-native-firebase/auth
+
+npx expo customize metro.config.js
+
+
+------------------------------------------
+
+gerar apk
+
+20233005321@estudantes.ifpr.edu.br
+180318Helena*
+
+npm install -g eas-cli
+eas login
+
+- criar um projeto no eas e usar seu id
+eas init --id 54521d7f-65bf-4544-9e80-8fe54f1b9d05
+eas build:configure -> cria o arquivo eas.json (com as configs de build).
+eas build -p android --profile preview
+
+npx expo install --check -> upgrade de dependencias
+
+rm -rf node_modules
+rm package-lock.json
+npm install
+
+npx expo prebuild --clean -> Ele remove e recria completamente as pastas nativas do projeto (android/ e ios/), garantindo que tudo esteja sincronizado com as versões corretas do Expo SDK e das dependências nativas.
+eas build --clear-cache
+
+» android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature.
+
+npx expo-doctor -> checa a "saúde" do projeto (dependencias, etc)
+
+expo orbit 
+

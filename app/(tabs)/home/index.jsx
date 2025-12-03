@@ -130,18 +130,20 @@ export default function Home() {
 
     // buscar areas
     useEffect(() => {
+        if (!user) return;
+
         const fecthAreas = async () => {
             try {
                 const qArea = query(
                     collection(db, "areas"),
-                    where("user", "==", user.email),
+                    where("user", "==", user?.email),
                 );
 
                 const areaSnap = await getDocs(qArea);
 
                 const listaFB = !areaSnap.empty ? areaSnap.docs : null;
-                console.log("user: ", user.email);
-                console.log('areas: ', listaFB ? listaFB.map(x => x.data()) : 'Nenhuma área encontrada');
+                console.log("user: ", user?.email);
+                console.log('areas: ', listaFB); // != null ? listaFB.map(x => x.data()) : 'Nenhuma área encontrada');
                 setListAreas(listaFB);
 
             } catch (err) {
@@ -154,7 +156,7 @@ export default function Home() {
 
     // buscar os conteudos das areas
     useEffect(() => {
-        const fecthAreas = async () => {
+        const fecthConteudos = async () => {
             try {
                 const qConteudos = query(
                     collection(db, "conteudos")
@@ -162,30 +164,32 @@ export default function Home() {
 
                 const conteudosSnap = await getDocs(qConteudos);
 
-                const listaFB = !conteudosSnap.empty ? conteudosSnap.docs : "Contéudos não encontrados";
+                const listaFB = !conteudosSnap.empty ? conteudosSnap.docs : [];
                 setListConteudos(listaFB);
-                console.log('conteudos: ', listaFB.map(x => x.data()));
+                console.log('conteudos: ', listaFB);//.map(x => x.data()));
 
             } catch (err) {
                 console.log("Erro ao buscar os conteúdos das áreas");
                 console.error(err);
             }
         };
-        fecthAreas();
+        fecthConteudos();
     }, [user]);
 
     // organizar os conteudos por area, informando a porcentagem e número de conteudos iniciados
     useEffect(() => {
         if (!listAreas || !listConteudos) return;
-        if (!Array.isArray(listAreas) || !Array.isArray(listConteudos)) return;
+        // if (!Array.isArray(listAreas) || !Array.isArray(listConteudos)) return;
+
+        console.log('OrganZ-A: ', listAreas.map(doc => doc.data().nome));
+        console.log('OrganZ-C: ', listConteudos.map(doc => doc.data().nome));
 
         const organizados = listAreas.map(areaDoc => {
             const areaData = areaDoc.data();
             const areaId = areaDoc.id;
 
             // filtrar conteúdos que pertencem a esta area
-            const conteudosDaArea = listConteudos
-                .map(conteudoDoc => ({
+            const conteudosDaArea = listConteudos.map(conteudoDoc => ({
                     id: conteudoDoc.id,
                     ...conteudoDoc.data()
                 }))

@@ -9,15 +9,14 @@ import { CustomToast, showToast } from '../components/CustomToast';
 
 export default function Login() {
     const router = useRouter();
-
-    const [email, setEmail] = useState('biagaio@gmail.com');
-    const [password, setPassword] = useState('biagaio');
+    const [email, setEmail] = useState('teste123@gmail.com');
+    const [password, setPassword] = useState('teste123');
     const [checkingLogin, setCheckingLogin] = useState(true);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
-                router.replace("/home");
+                // router.replace("/home");
             }
             setCheckingLogin(false);
         });
@@ -47,7 +46,6 @@ export default function Login() {
             showToast('sucesso', 'Login realizado com sucesso!!', 'Você está logado!!');
             setTimeout(() => router.replace("/home"), 3000);
         } catch (error) {
-            // console.error("Erro ao logar:", error);
             showToast('erro', 'Erro ao logar', 'Revise suas credenciais!!');
         }
     };

@@ -95,7 +95,7 @@ export default function Configuracoes() {
                                         {"\n\n"}
                                         <Text style={{ fontWeight: "bold" }}>Versão:</Text> 1.0.0{"\n"}
                                         <Text style={{ fontWeight: "bold" }}>Desenvolvido por:</Text> Beatriz Gaio{"\n"}
-                                        <Text style={{ fontWeight: "bold" }}>Contato:</Text> suporte@beatriz.com
+                                        {/* <Text style={{ fontWeight: "bold" }}>Contato:</Text> suporte@beatriz.com */}
                                     </Text>
 
 
@@ -169,7 +169,7 @@ export default function Configuracoes() {
                         <MaterialIcons name='logout' size={20} color='#34445B' />
                         <Text style={{ fontSize: 16 }}>Sair</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itemMenu} onPress={() => alert('Excluindo...')}>
+                    <TouchableOpacity style={styles.itemMenu} disabled={true} onPress={() => alert('Excluindo...')}>
                         <MaterialIcons name='delete' size={20} color='#34445B' />
                         <Text style={{ fontSize: 16 }}>Excluir conta</Text>
                     </TouchableOpacity>

@@ -398,7 +398,6 @@ export default function Cronograma() {
         const conteudoSnap = await getDocs(qConteudo);
         const conteudoRef = !conteudoSnap.empty ? conteudoSnap.docs[0].ref : null;
 
-
         if (!sessaoFormEhPomodoro) {
             console.log('horarioInicio: ',);
             console.log('horarioTermino: ',);

@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from "expo-router"
 import { auth, db } from "../../../firebaseConf"
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { CustomToast, showToast } from '../../components/CustomToast';
@@ -61,11 +61,13 @@ export default function Cadastro() {
 
       // criar conteúdos padrões após criar a conta
       await criarConteudoPadrao();
+      showToast('sucesso', 'Conta criada com sucesso!!', 'Tentando fazer login...');
 
       // fazer o login automático
       await signIn();
       showToast('sucesso', 'Login realizado com sucesso!!', 'Você está logado!!');
       setTimeout(() => router.replace("/home"), 3000);
+
     } catch (error) {
       console.error("Erro geral:", error);
     }
@@ -75,25 +77,28 @@ export default function Cadastro() {
   const criarConteudoPadrao = async () => {
     try {
       const mapAreasMaterias = {
-        // "Ciências da Natureza e suas Tecnologias": [
-        //   "Biologia",
-        //   "Física",
-        //   "Química"
-        // ],
-        // "Ciências Humanas e suas Tecnologias": [
-        //   "História",
-        //   "Geografia",
-        //   "Filosofia",
-        //   "Sociologia"
-        // ],
-        // "Linguagens, Códigos e suas Tecnologias": [
-        //   "Português",
-        //   "Inglês",
-        //   "Artes",
-        //   "Educação Física"
-        // ],
-        "XXX - Matemática e suas Tecnologias": [
-          "XXX - Matemática"
+        "Ciências da Natureza e suas Tecnologias": [
+          "Biologia",
+          "Física",
+          "Química"
+        ],
+        "Ciências Humanas e suas Tecnologias": [
+          "História",
+          "Geografia",
+          "Filosofia",
+          "Sociologia"
+        ],
+        "Linguagens, Códigos e suas Tecnologias": [
+          "Português",
+          "Inglês",
+          "Artes",
+          "Educação Física"
+        ],
+        "Matemática e suas Tecnologias": [
+          "Matemática"
+        ],
+        "Personalizada": [
+          // matérias criadas pelo aluno
         ]
       };
 

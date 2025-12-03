@@ -109,3 +109,8 @@ npx expo-doctor -> checa a "saúde" do projeto (dependencias, etc)
 
 expo orbit 
 
+
+
+app da bia
+eas init --id d8ab286b-c1f3-4de3-95f9-d0c22189c6ce
+

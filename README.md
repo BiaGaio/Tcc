@@ -1,4 +1,3 @@
-
 # React Native - Base Expo Router JavaScript
 
 ## Pré-requisitos
@@ -7,7 +6,7 @@
 
 ## Clonar repositório
 ```bash
-git clone https://github.com/BiaGaio/Tcc
+git clone https://github.com/hick-hpe/react-native-base-expo-router-javascript
 ```
 
 ## Instalar as dependências do projeto
@@ -74,7 +73,7 @@ Para ver o IP, digite no terminal:
     - [X] Login
     - [X] Logout
     - [x] Editar dados da conta
-    - [ ] Excluir conta (necessário mesmo??)
+    - [ ] Excluir conta
 - Dashboard
     - [x] Tela principal
     - [x] Parte do progresso
@@ -126,4 +125,38 @@ Para ver o IP, digite no terminal:
     - [x] Mudar senha
     - [x] Logout
 
+## Gerar APK
+- Instalar `eas-cli`:
+    ```
+    npm install -g eas-cli
+    ```
+
+- Fazer o login no [expo.dev](https://expo.dev/):
+    ```
+    eas login
+    ```
+    > Informe seu nome de usuário e senha utilizada!
+
+- Defina as configurações do projeto para android:
+    ```
+    eas build:configure
+    ```
+    > Selecione 'Android'. Isso irá gerar um arquivo `eas.json` com as configurações do APK.
+
+- Crie o APK:
+    ```
+    eas build -p android --profile preview
+    ```
+    > O processo de  build leva em torno de 10 minutos para ser finalizado.
+
+    Após isso, vá para a página do projeto no navegador, onde estará disponível o APK.
+
+## Baixar APK
+
+Escaneie o QR Code abaixo para baixar o app:
+
+![QR Code para download](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://raw.githubusercontent.com/hick-hpe/react-native-base-expo-router-javascript/main/apk-e-qrcode-gerado/app-sos-v14.apk)
+
+Ou clique aqui para baixar:  
+[Baixar APK](https://raw.githubusercontent.com/hick-hpe/react-native-base-expo-router-javascript/main/apk-e-qrcode-gerado/app-sos-v14.apk)
 

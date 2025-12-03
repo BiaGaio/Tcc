@@ -352,10 +352,32 @@ export default function SessaoAtv() {
         }
     };
 
+    // IDs exclusivos para notificações do foguinho
+    const FOQUINHO_IDS = [
+        "foguinho_teste",
+        "foguinho_8h",
+        "foguinho_4h",
+        "foguinho_1h",
+        "foguinho_expirado",
+    ];
+
+    // cancelar SOMENTE notificações do foguinho
+    const cancelarNotificacoesFoguinho = async () => {
+        for (const id of FOQUINHO_IDS) {
+            try {
+                await Notifications.cancelScheduledNotificationAsync(id);
+                console.log("Cancelada:", id);
+            } catch (e) {
+                // Se não existir, ignore
+            }
+        }
+    };
+
     // agendar notificacoes expiracao foguinho
     const agendarNotificacoesExpiracaoFoguinho = async (timestampAgora) => {
-        // limpa notificações antigas
-        await Notifications.cancelAllScheduledNotificationsAsync();
+
+        // Cancelar apenas as do foguinho
+        await cancelarNotificacoesFoguinho();
 
         const agora = new Date(timestampAgora.toDate());
 
@@ -364,16 +386,11 @@ export default function SessaoAtv() {
 
         // horários antes de expirar
         const datas = [
-            // teste: dispara 2min depois de salvar
-            {
-                minutos: 2,
-                title: "⏱ Teste de notificação!",
-                body: "Esta notificação chegou 2 minutos após salvar a sessão."
-            },
-            { horas: 8, title: "Seu foguinho expira em 8h!", body: "Estude agora pra manter sua sequência!" },
-            { horas: 4, title: "Seu foguinho expira em 4h!", body: "Ainda dá tempo de estudar hoje!" },
-            { horas: 1, title: "Seu foguinho expira em 1h!", body: "Última chance de manter o streak!" },
-            { horas: 0, title: "Seu foguinho expirou 😢", body: "Você perdeu o streak. Vamos recomeçar?" },
+            { minutos: 2, id: "foguinho_teste", title: "⏱ Teste!", body: "Chegou após 2 minutos!" },
+            { horas: 8, id: "foguinho_8h", title: "Seu foguinho expira em 8h!", body: "Estude pra manter o streak!" },
+            { horas: 4, id: "foguinho_4h", title: "Seu foguinho expira em 4h!", body: "Ainda dá tempo!" },
+            { horas: 1, id: "foguinho_1h", title: "Seu foguinho expira em 1h!", body: "Última chance!" },
+            { horas: 0, id: "foguinho_expirado", title: "Seu foguinho expirou 😢", body: "Vamos recomeçar?" },
         ];
 
         for (const item of datas) {
@@ -381,11 +398,12 @@ export default function SessaoAtv() {
             const segundosAteAlvo = Math.max(0, Math.floor((dataAlvo - new Date()) / 1000));
 
             await Notifications.scheduleNotificationAsync({
+                identifier: item.id, // identificação única para cancelamento
                 content: {
                     title: item.title,
                     body: item.body,
                 },
-                trigger: { seconds: segundosAteAlvo }, // cross-platform
+                trigger: { seconds: segundosAteAlvo },
             });
 
             console.log(`📌 Notificação agendada: ${item.title} — para: ${dataAlvo}`);

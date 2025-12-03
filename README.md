@@ -155,8 +155,8 @@ Para ver o IP, digite no terminal:
 
 Escaneie o QR Code abaixo para baixar o app:
 
-![QR Code para download](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://raw.githubusercontent.com/hick-hpe/react-native-base-expo-router-javascript/main/apk-e-qrcode-gerado/app-sos-v14.apk)
+![QR Code para download](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://raw.githubusercontent.com/BiaGaio/Tcc/main/apk-e-qrcode-gerado/app-sos-v14.apk)
 
 Ou clique aqui para baixar:  
-[Baixar APK](https://raw.githubusercontent.com/hick-hpe/react-native-base-expo-router-javascript/main/apk-e-qrcode-gerado/app-sos-v14.apk)
+[Baixar APK](https://raw.githubusercontent.cohttps://BiaGaio/Tcc/main/apk-e-qrcode-gerado/app-sos-v14.apk)
 

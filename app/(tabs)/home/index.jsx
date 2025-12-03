@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { getAuth } from 'firebase/auth';
-import { collection, getDoc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, getDoc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { ImageBackground, Modal, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -33,6 +33,88 @@ export default function Home() {
 
         return () => unsubscribe();
     }, []);
+
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (user) {
+                    console.log("Iniciando busca de áreas e matérias para o usuário:", user.email);
+    
+                    // 1. Buscar áreas e matérias do Firestore
+                    const areasQuery = query(collection(db, "areas"), where("user", "==", user.email));
+                    const materiasQuery = query(collection(db, "materias"), where("user", "==", user.email));
+    
+                    console.log("Consultando áreas no Firestore...");
+                    const areasSnapshot = await getDocs(areasQuery);
+                    console.log("Áreas encontradas:", areasSnapshot.docs.length);
+    
+                    console.log("Consultando matérias no Firestore...");
+                    const materiasSnapshot = await getDocs(materiasQuery);
+                    console.log("Matérias encontradas:", materiasSnapshot.docs.length);
+    
+                    const areas = areasSnapshot.docs.map(doc => (
+                        {
+                            ref: doc.ref,
+                            ...doc.data()
+                        }
+                    ));
+                    const materias = materiasSnapshot.docs.map(doc => doc.data());
+    
+                    console.log("Áreas:", areas);
+                    console.log("Matérias:", materias);
+    
+                    // 2. Excluir áreas e matérias duplicadas
+    
+                    // Filtra as áreas para manter apenas uma por nome
+                    const uniqueAreas = [];
+                    const areaNamesSet = new Set();
+    
+                    console.log("Filtrando áreas para remover duplicatas...");
+                    for (const area of areas) {
+                        if (!areaNamesSet.has(area.nome)) {
+                            uniqueAreas.push(area);
+                            areaNamesSet.add(area.nome);
+                        } else {
+                            console.log(`Área duplicada encontrada: ${area.ref}. Excluindo...`);
+                            await deleteDoc(area.ref);
+                        }
+                    }
+    
+                    console.log("Áreas únicas após filtro:", uniqueAreas);
+    
+                    // Filtra as matérias para manter apenas uma por nome e área
+                    const uniqueMaterias = [];
+                    const materiaSet = new Set();
+    
+                    console.log("Filtrando matérias para remover duplicatas...");
+                    for (const materia of materias) {
+                        const key = `${materia.nome}-${materia.area.id}`;  // Combina nome da matéria e área para garantir unicidade
+    
+                        if (!materiaSet.has(key)) {
+                            uniqueMaterias.push(materia);
+                            materiaSet.add(key);
+                        } else {
+                            console.log(`Matéria duplicada encontrada: ${materia.nome} na área ${materia.area.nome}. Excluindo...`);
+                            await deleteDoc(materia.ref);
+                        }
+                    }
+    
+                    console.log("Matérias únicas após filtro:", uniqueMaterias);
+    
+                    // Agora, você pode atualizar seu estado, se necessário:
+                    // setUniqueAreas(uniqueAreas);
+                    // setUniqueMaterias(uniqueMaterias);
+                }
+            } catch (error) {
+                console.error("Erro ao buscar ou excluir duplicatas: ", error);
+            }
+        };
+    
+        fetchData();
+    }, [user]);
+    
+
 
     // buscar sequencia foguinho
     useEffect(() => {

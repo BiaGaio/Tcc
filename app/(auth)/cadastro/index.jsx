@@ -103,20 +103,46 @@ export default function Cadastro() {
       };
 
       for (const [areaNome, materias] of Object.entries(mapAreasMaterias)) {
-
-        // criar área
-        const areaRef = await addDoc(collection(db, "areas"), {
-          nome: areaNome,
-          user: email
-        });
-
-        // criar as matérias da área
-        for (const materiaNome of materias) {
-          await addDoc(collection(db, "materias"), {
-            nome: materiaNome,
-            area: areaRef,   // referência da área criada
+        // Verificar se a área já existe
+        const areaQuery = query(
+          collection(db, "areas"),
+          where("nome", "==", areaNome),
+          where("user", "==", email)  // Adiciona a verificação pelo usuário para garantir que a área é daquele usuário
+        );
+        
+        const areaSnapshot = await getDocs(areaQuery);
+        
+        let areaRef;
+        if (!areaSnapshot.empty) {
+          // Se a área já existe, pegamos a referência
+          areaRef = areaSnapshot.docs[0].ref;
+        } else {
+          // Se não existe, criamos a nova área
+          areaRef = await addDoc(collection(db, "areas"), {
+            nome: areaNome,
             user: email
           });
+        }
+      
+        // Criar as matérias da área
+        for (const materiaNome of materias) {
+          // Verificar se a matéria já existe para a área
+          const materiaQuery = query(
+            collection(db, "materias"),
+            where("nome", "==", materiaNome),
+            where("area", "==", areaRef)  // Verifica pela referência da área
+          );
+          
+          const materiaSnapshot = await getDocs(materiaQuery);
+          
+          if (materiaSnapshot.empty) {
+            // Se não existe, criamos a nova matéria
+            await addDoc(collection(db, "materias"), {
+              nome: materiaNome,
+              area: areaRef,  // referência da área criada ou existente
+              user: email
+            });
+          }
         }
       }
 

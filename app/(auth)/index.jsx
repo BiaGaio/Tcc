@@ -9,8 +9,8 @@ import { CustomToast, showToast } from '../components/CustomToast';
 
 export default function Login() {
     const router = useRouter();
-    const [email, setEmail] = useState('teste123@gmail.com');
-    const [password, setPassword] = useState('teste123');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [checkingLogin, setCheckingLogin] = useState(true);
 
     useEffect(() => {

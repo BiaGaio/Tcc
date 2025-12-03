@@ -6,7 +6,7 @@
 
 ## Clonar repositório
 ```bash
-git clone https://github.com/hick-hpe/react-native-base-expo-router-javascript
+git clone https://github.com/BiaGaio/Tcc
 ```
 
 ## Instalar as dependências do projeto
